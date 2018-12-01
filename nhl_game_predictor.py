@@ -29,13 +29,13 @@ training_set_scaled = sc.fit_transform(training_set)
 # Create a data structure with 60 game steps and one output
 X_train = []
 y_train = []
-for i in range(20, 1056):
+for i in range(20, 1036):
     X_train.append(training_set_scaled[i-20:i, :])
     y_train.append(training_set_scaled[i, len(training_set[0])-1])
 X_train, y_train = np.array(X_train), np.array(y_train)
 
 # Reshaping
-X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
+#X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 
 
 # Part 2 Building the RNN
@@ -76,8 +76,9 @@ regressor.fit(X_train, y_train, epochs = 100, batch_size = 32)
 
 # Part 3 Making predictions and visualizing the results
 X_test = []
-X_test = X_train[1016:1036]
-X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], X_test.shape[2]))
+for i in range(1036, 1056):
+    X_test.append(training_set_scaled[i-20:i, :])
+X_test = np.array(X_test)
 predicted_win = regressor.predict(X_test)
 predicted_win = sc.inverse_transform(predicted_win)
 
@@ -95,7 +96,7 @@ plt.show()
 
 # New result for latest game
 X_test = []
-X_test.append(training_set_scaled[1036:1056, :])
+X_test.append(training_set_scaled[1037:1057, :])
 X_test = np.array(X_test)
 
 # Reshaping
